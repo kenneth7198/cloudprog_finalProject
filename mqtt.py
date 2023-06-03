@@ -61,8 +61,20 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
     global received_count
     received_count += 1
+    # receive data
+
+
     if received_count == cmdData.input_count:
         received_all_event.set()
+
+def take_a_picture(payload):
+    payload = json.loads(payload.decode('utf-8'))
+    try:
+        if payload['pi_camera'] == True:
+            print("take a picture")
+    except:
+        print("error")
+    return            
 
 
 if __name__ == '__main__':
