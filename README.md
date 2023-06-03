@@ -4,7 +4,7 @@
 
 ## API Reference:
 ### 抓取pi上面的sensor data
-
+```json
 {
   "pi_ip":,
   "pi_sensors":{
@@ -15,3 +15,4 @@
     "update_time":"2023-06-04 02:09:00"  //上傳時間
   }
 }
+```
