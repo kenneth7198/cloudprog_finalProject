@@ -12,16 +12,37 @@ import threading
 import time
 import json
 from utils.command_line_utils import CommandLineUtils
+import time
+import sys
 
-# This sample uses the Message Broker for AWS IoT to send and receive messages
-# through an MQTT connection. On startup, the device connects to the server,
-# subscribes to a topic, and begins publishing messages to that topic.
-# The device should receive those same messages back from the message broker,
-# since it is subscribed to that same topic.
+##### HX711 Setup ##############
+referenceUnit = 88
 
-# cmdData is the arguments/input from the command line placed into a single struct for
-# use in this sample. This handles all of the command line parsing, validating, etc.
-# See the Utils/CommandLineUtils for more information.
+if not EMULATE_HX711:
+    import RPi.GPIO as GPIO
+    from hx711 import HX711
+else:
+    from emulated_hx711 import HX711
+
+def cleanAndExit():
+    print("Cleaning...")
+
+    if not EMULATE_HX711:
+        GPIO.cleanup()
+        
+    print("Bye!")
+    sys.exit()
+
+hx = HX711(5, 6)
+hx.set_reading_format("MSB", "MSB")
+hx.set_reference_unit(referenceUnit)
+hx.reset()
+hx.tare()
+
+print("Tare done! Add weight now...")
+
+
+
 cmdData = CommandLineUtils.parse_sample_input_pubsub()
 
 received_count = 0
@@ -122,6 +143,18 @@ if __name__ == '__main__':
 
     subscribe_result = subscribe_future.result()
     print("Subscribed with {}".format(str(subscribe_result['qos'])))
+
+
+    #TODO - Get weight ##################
+    try:
+        val = hx.get_weight(5)
+        print(val)
+        hx.power_down()
+        hx.power_up()
+        time.sleep(0.1)
+    except(KeyboardInterrupt, SystemExit):
+        cleanAndExit()
+
 
     # Publish message to server desired number of times.
     # This step is skipped if message is blank.
