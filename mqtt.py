@@ -62,7 +62,7 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
     global received_count
     received_count += 1
     # receive data
-
+    take_a_picture(payload)
 
     if received_count == cmdData.input_count:
         received_all_event.set()
