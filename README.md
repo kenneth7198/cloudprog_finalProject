@@ -6,7 +6,7 @@
 ### 抓取pi上面的sensor data
 ```json
 {
-  "pi_ip":"192.168.8.80",
+  "pi_ip":"192.168.0.80",
   "pi_sensors":{
     "hx711":5.00,       //重量0~5kg
     "temperature":25.0, //溫度值

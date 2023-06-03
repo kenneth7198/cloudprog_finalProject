@@ -49,6 +49,8 @@ received_count = 0
 received_all_event = threading.Event()
 
 MQTT_Topic = "team01/final"
+MQTT_Msg = ""
+publish_count = 1
 
 # Callback when connection is accidentally lost.
 def on_connection_interrupted(connection, error, **kwargs):
@@ -132,7 +134,7 @@ if __name__ == '__main__':
 
     message_count = cmdData.input_count
     message_topic = MQTT_Topic
-    #message_string = cmdData.input_message
+    message_string = MQTT_Msg 
 
     # Subscribe
     print("Subscribing to topic '{}'...".format(message_topic))
@@ -165,36 +167,34 @@ if __name__ == '__main__':
                 '"ultra_sonic":100,' \
                 '"sound_snd":50,' \
                 '"update_time":"2023-06-04 02:09:00",' \
+                '"publish_count":%s'\
                 '}'\
-                '}'
+                '}' (publish_count)
                 
-    message_json = json.dumps(message)
-    mqtt_connection.publish(
-        topic=message_topic,
-        payload=message_json,
-        qos=mqtt.QoS.AT_LEAST_ONCE)
-    time.sleep(1)
+    # message_json = json.dumps(message)
+    # mqtt_connection.publish(
+    #     topic=message_topic,
+    #     payload=message_json,
+    #     qos=mqtt.QoS.AT_LEAST_ONCE)
+    # time.sleep(1)
 
-    # Publish message to server desired number of times.
-    # This step is skipped if message is blank.
-    # This step loops forever if count was set to 0.
-    #if message_string:
-    #    if message_count == 0:
-    #        print("Sending messages until program killed")
-    #    else:
-    #        print("Sending {} message(s)".format(message_count))
-    #
-    #    publish_count = 1
-    #    while (publish_count <= message_count) or (message_count == 0):
-    #        message = "{} [{}]".format(message_string, publish_count)
-    #        print("Publishing message to topic '{}': {}".format(message_topic, message))
-    #        message_json = json.dumps(message)
-    #        mqtt_connection.publish(
-    #            topic=message_topic,
-    #            payload=message_json,
-    #            qos=mqtt.QoS.AT_LEAST_ONCE)
-    #        time.sleep(1)
-    #        publish_count += 1
+    if message_string:
+        if message_count == 0:
+            print("Sending messages until program killed")
+        else:
+            print("Sending {} message(s)".format(message_count))
+    
+        
+        while (publish_count <= message_count) or (message_count == 0):
+            # message = "{} [{}]".format(message_string, publish_count)
+            print("Publishing message to topic '{}': {}".format(message_topic, message))
+            message_json = json.dumps(message)
+            mqtt_connection.publish(
+                topic=message_topic,
+                payload=message_json,
+                qos=mqtt.QoS.AT_LEAST_ONCE)
+            time.sleep(1)
+            publish_count += 1
 
     # Wait for all messages to be received.
     # This waits forever if count was set to 0.
