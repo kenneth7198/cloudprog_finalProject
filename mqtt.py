@@ -151,28 +151,29 @@ if __name__ == '__main__':
         print(val)
         hx.power_down()
         hx.power_up()
-        time.sleep(0.1)
-        print("Publishing message to topic")
-        message = '{"pi_ip":"192.168.0.80",'\
-                  '{"pi_sensors":{' \
-                  '"hx711":5.00,' \
-                  '"temperature":25.0,' \
-                  '"ultra_sonic":100,' \
-                  '"sound_snd":50,' \
-                  '"update_time":"2023-06-04 02:09:00",' \
-                  '}'\
-                  '}'
-                  
-        message_json = json.dumps(message)
-        mqtt_connection.publish(
-           topic=message_topic,
-           payload=message_json,
-           qos=mqtt.QoS.AT_LEAST_ONCE)
-        time.sleep(1)
+        time.sleep(0.1)   
 
     except(KeyboardInterrupt, SystemExit):
         cleanAndExit()
 
+    #TODO - MQTT push message ##################
+    print("Publishing message to topic")
+    message = '{"pi_ip":"192.168.0.80",'\
+                '{"pi_sensors":{' \
+                '"hx711":5.00,' \
+                '"temperature":25.0,' \
+                '"ultra_sonic":100,' \
+                '"sound_snd":50,' \
+                '"update_time":"2023-06-04 02:09:00",' \
+                '}'\
+                '}'
+                
+    message_json = json.dumps(message)
+    mqtt_connection.publish(
+        topic=message_topic,
+        payload=message_json,
+        qos=mqtt.QoS.AT_LEAST_ONCE)
+    time.sleep(1)
 
     # Publish message to server desired number of times.
     # This step is skipped if message is blank.
