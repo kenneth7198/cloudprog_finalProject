@@ -15,17 +15,11 @@ from utils.command_line_utils import CommandLineUtils
 import time
 import sys
 from picamera import PiCamera
+import RPi.GPIO as GPIO
+GPIO.setwarnings(False)
+from hx711 import HX711
 
 camera = PiCamera()
-EMULATE_HX711=False
-
-if not EMULATE_HX711:
-    import RPi.GPIO as GPIO
-    GPIO.setwarnings(False)
-    from hx711 import HX711
-else:
-    from emulated_hx711 import HX711
-
 
 
 ##### HX711 Setup ##############
@@ -34,8 +28,7 @@ referenceUnit = -441
 def cleanAndExit():
     print("Cleaning...")
 
-    if not EMULATE_HX711:
-        GPIO.cleanup()
+    GPIO.cleanup()
         
     print("Bye!")
     sys.exit()
