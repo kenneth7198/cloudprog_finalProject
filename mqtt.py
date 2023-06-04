@@ -95,7 +95,7 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
 def take_a_picture(payload):
     #if payload['pi_camera'] == True:   
     try:
-        print("take a picture")
+        print("...")
         ## pi camera ##
         # camera.start_preview()
         # time.sleep(0.1)
