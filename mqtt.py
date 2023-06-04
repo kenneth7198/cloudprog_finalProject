@@ -168,7 +168,6 @@ if __name__ == '__main__':
     ##### MQTT push message ##################
     print("Publishing message to topic")
     message = '{'\
-              '"pi_ip":"192.168.0.80",'\
               '"pi_sensors":{' \
               '"hx711":{hx711},' \
               '"temperature":25.0,' \
