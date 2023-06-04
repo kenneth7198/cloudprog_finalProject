@@ -23,7 +23,7 @@ camera.resolution = (1024, 768)
 
 
 ##### HX711 Setup ##############
-referenceUnit = -441
+referenceUnit = 465
 
 def cleanAndExit():
     print("Cleaning...")
@@ -157,7 +157,7 @@ if __name__ == '__main__':
     ##### Get weight ##################
     try:
         weightVal = hx.get_weight(5)
-        print(weightVal)
+        print("{:.1f}".format(abs(weightVal)))
         hx.power_down()
         hx.power_up()
         time.sleep(0.1)   
@@ -174,7 +174,7 @@ if __name__ == '__main__':
     #           '"update_time":"2023-06-04 02:09:00",' \
     #           '"publish_count":{count}}'.format(hx711=weightVal, count=publish_count) \
               
-    message = '{"hx711":276.0}'
+    
 
     # message_json = json.dumps(message)
     # mqtt_connection.publish(
@@ -192,6 +192,19 @@ if __name__ == '__main__':
         
         while (publish_count <= message_count) or (message_count == 0):
             # message = "{} [{}]".format(message_string, publish_count)
+
+            ##### Get weight ##################
+            try:
+                weightVal = hx.get_weight(5)
+                message = '{"hx711":'+abs(weightVal)+'}'
+                print(weightVal)
+                hx.power_down()
+                hx.power_up()
+                time.sleep(0.1)   
+
+            except(KeyboardInterrupt, SystemExit):
+                cleanAndExit()
+
             print("Publishing message to topic '{}': {}".format(message_topic, message))
             message_json = json.loads(message)
             mqtt_connection.publish(
