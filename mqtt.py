@@ -175,7 +175,7 @@ if __name__ == '__main__':
                 '"sound_snd":50,' \
                 '"update_time":"2023-06-04 02:09:00",' \
                 '"publish_count":{count}'\
-                '}'\
+                '},'\
                 '}'.format(hx711=weightVal, count=publish_count)
                 
     # message_json = json.dumps(message)
