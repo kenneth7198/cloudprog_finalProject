@@ -19,14 +19,17 @@ from picamera import PiCamera
 camera = PiCamera()
 EMULATE_HX711=False
 
-##### HX711 Setup ##############
-referenceUnit = 88
-
 if not EMULATE_HX711:
     import RPi.GPIO as GPIO
+    GPIO.setwarnings(False)
     from hx711 import HX711
 else:
     from emulated_hx711 import HX711
+
+
+
+##### HX711 Setup ##############
+referenceUnit = -441
 
 def cleanAndExit():
     print("Cleaning...")
