@@ -57,6 +57,8 @@ MQTT_Topic = "team01/final"
 MQTT_Msg = ""
 publish_count = 1
 weightVal = 0.0
+temperature_c = 0.0
+humidity = 0
 
 # Callback when connection is accidentally lost.
 def on_connection_interrupted(connection, error, **kwargs):
@@ -163,7 +165,7 @@ if __name__ == '__main__':
     ##### Get weight ##################
     try:
         weightVal = hx.get_weight(5)
-        print("{:.1f}".format(abs(weightVal)))
+        print("HX711: {:.1f}".format(abs(weightVal)))
         hx.power_down()
         hx.power_up()
         time.sleep(0.1)   
@@ -222,7 +224,7 @@ if __name__ == '__main__':
         try:
             weightVal = hx.get_weight(5)
             #message = '{"hx711":'+str(weightVal)+'}'
-            message_string = '{"hx711":'+str(round(abs(weightVal), 2))+'}'
+            message_string = '{"hx711":'+str(round(abs(weightVal), 2))+', "Temp":'+ str(temperature_c) +' }'
             message = "{} [{}]".format(message_string, publish_count)
             #print(weightVal)
             hx.power_down()
