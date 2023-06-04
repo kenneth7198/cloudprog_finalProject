@@ -88,12 +88,12 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
     # receive data
     payload = json.loads(payload.decode('utf-8'))
     if payload['pi_camera'] == True:
-        take_a_picture(payload)
+        take_a_picture()
 
     # if received_count == cmdData.input_count:
     #     received_all_event.set()
 
-def take_a_picture(payload):
+def take_a_picture():
     
     try:
             print("take a picture")
