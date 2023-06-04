@@ -191,7 +191,8 @@ if __name__ == '__main__':
         print("Sending {} message(s)".format(message_count))
 
     
-    while (publish_count <= message_count) or (message_count == 0):
+    # while (publish_count <= message_count) or (message_count == 0):
+    while(weightVal):
         ##### Get weight ##################
         try:
             weightVal = hx.get_weight(5)
