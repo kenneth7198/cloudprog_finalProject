@@ -197,7 +197,7 @@ if __name__ == '__main__':
             ##### Get weight ##################
             try:
                 weightVal = hx.get_weight(5)
-                message = '{"hx711":'+abs(weightVal)+'}'
+                message = '{"hx711":'+weightVal+'}'
                 print(weightVal)
                 hx.power_down()
                 hx.power_up()
