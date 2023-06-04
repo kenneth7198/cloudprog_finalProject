@@ -142,7 +142,7 @@ if __name__ == '__main__':
 
     message_count = cmdData.input_count
     message_topic = MQTT_Topic
-    message_string = cmdData.input_message
+    message_string = MQTT_Msg
 
     # Subscribe
     print("Subscribing to topic '{}'...".format(message_topic))
@@ -184,36 +184,36 @@ if __name__ == '__main__':
     #     qos=mqtt.QoS.AT_LEAST_ONCE)
     # time.sleep(1)
 
-    if message_string:
-        if message_count == 0:
-            print("Sending messages until program killed")
-        else:
-            print("Sending {} message(s)".format(message_count))
     
-        
-        while (publish_count <= message_count) or (message_count == 0):
-            # message = "{} [{}]".format(message_string, publish_count)
+    if message_count == 0:
+        print("Sending messages until program killed")
+    else:
+        print("Sending {} message(s)".format(message_count))
 
-            ##### Get weight ##################
-            try:
-                weightVal = hx.get_weight(5)
-                message = '{"hx711":'+str(weightVal)+'}'
-                print(weightVal)
-                hx.power_down()
-                hx.power_up()
-                time.sleep(0.1)   
+    
+    while (publish_count <= message_count) or (message_count == 0):
+        ##### Get weight ##################
+        try:
+            weightVal = hx.get_weight(5)
+            #message = '{"hx711":'+str(weightVal)+'}'
+            message_string = '{"hx711":'+str(weightVal)+'}'
+            message = "{} [{}]".format(message_string, publish_count)
+            print(weightVal)
+            hx.power_down()
+            hx.power_up()
+            time.sleep(0.1)   
 
-            except(KeyboardInterrupt, SystemExit):
-                cleanAndExit()
+        except(KeyboardInterrupt, SystemExit):
+            cleanAndExit()
 
-            print("Publishing message to topic '{}': {}".format(message_topic, message))
-            message_json = json.loads(message)
-            mqtt_connection.publish(
-                topic=message_topic,
-                payload=message_json,
-                qos=mqtt.QoS.AT_LEAST_ONCE)
-            time.sleep(1)
-            publish_count += 1
+        print("Publishing message to topic '{}': {}".format(message_topic, message))
+        message_json = json.dumps(message)
+        mqtt_connection.publish(
+            topic=message_topic,
+            payload=message_json,
+            qos=mqtt.QoS.AT_LEAST_ONCE)
+        time.sleep(1)
+        publish_count += 1
 
     # Wait for all messages to be received.
     # This waits forever if count was set to 0.
