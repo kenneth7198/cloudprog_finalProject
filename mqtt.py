@@ -168,15 +168,16 @@ if __name__ == '__main__':
     ##### MQTT push message ##################
     print("Publishing message to topic")
     message = '{"pi_ip":"192.168.0.80",'\
-                '{"pi_sensors":{' \
-                '"hx711":{hx711},' \
-                '"temperature":25.0,' \
-                '"ultra_sonic":100,' \
-                '"sound_snd":50,' \
-                '"update_time":"2023-06-04 02:09:00",' \
-                '"publish_count":{count}'\
-                '},'\
-                '}'.format(hx711=weightVal, count=publish_count)
+              '{"pi_sensors":{' \
+              '"hx711":{hx711},' \
+              '"temperature":25.0,' \
+              '"ultra_sonic":100,' \
+              '"sound_snd":50,' \
+              '"update_time":"2023-06-04 02:09:00",' \
+              '"publish_count":{count}'\
+              '},'\
+              '},'\
+              '}'.format(hx711=weightVal, count=publish_count)
                 
     # message_json = json.dumps(message)
     # mqtt_connection.publish(
