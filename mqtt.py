@@ -13,13 +13,13 @@ import time
 import json
 from utils.command_line_utils import CommandLineUtils
 import time
-from picamera import PiCamera
+# from picamera import PiCamera
 import RPi.GPIO as GPIO
 GPIO.setwarnings(False)
 from hx711 import HX711
 
-camera = PiCamera()
-camera.resolution = (1024, 768)
+# camera = PiCamera()
+# camera.resolution = (1024, 768)
 
 
 ##### HX711 Setup ##############
@@ -87,7 +87,7 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
     received_count += 1
     # receive data
     payload = json.loads(payload.decode('utf-8'))
-    take_a_picture()
+    take_a_picture(payload)
     
     if received_count == cmdData.input_count:
         received_all_event.set()
