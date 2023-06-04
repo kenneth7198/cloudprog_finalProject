@@ -13,13 +13,13 @@ import time
 import json
 from utils.command_line_utils import CommandLineUtils
 import time
-import sys
 from picamera import PiCamera
 import RPi.GPIO as GPIO
 GPIO.setwarnings(False)
 from hx711 import HX711
 
 camera = PiCamera()
+camera.resolution = (1024, 768)
 
 
 ##### HX711 Setup ##############
