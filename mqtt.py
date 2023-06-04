@@ -141,7 +141,7 @@ if __name__ == '__main__':
 
     message_count = cmdData.input_count
     message_topic = MQTT_Topic
-    # message_string = cmdData.input_message
+    message_string = cmdData.input_message
 
     # Subscribe
     print("Subscribing to topic '{}'...".format(message_topic))
