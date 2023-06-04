@@ -14,6 +14,9 @@ import json
 from utils.command_line_utils import CommandLineUtils
 import time
 import sys
+from picamera import PiCamera
+
+camera = PiCamera()
 
 ##### HX711 Setup ##############
 referenceUnit = 88
@@ -95,6 +98,12 @@ def take_a_picture(payload):
     try:
         if payload['pi_camera'] == True:
             print("take a picture")
+            ## pi camera ##!SECTION
+            camera.start_preview()
+            time.sleep(0.1)
+            camera.capture('/home/pi/picamera.jpg')
+            camera.stop_preview()
+
     except:
         print("error")
     return            
@@ -147,7 +156,7 @@ if __name__ == '__main__':
     print("Subscribed with {}".format(str(subscribe_result['qos'])))
 
 
-    #TODO - Get weight ##################
+    ##### Get weight ##################
     try:
         val = hx.get_weight(5)
         print(val)
@@ -158,7 +167,7 @@ if __name__ == '__main__':
     except(KeyboardInterrupt, SystemExit):
         cleanAndExit()
 
-    #TODO - MQTT push message ##################
+    ##### MQTT push message ##################
     print("Publishing message to topic")
     message = '{"pi_ip":"192.168.0.80",'\
                 '{"pi_sensors":{' \
