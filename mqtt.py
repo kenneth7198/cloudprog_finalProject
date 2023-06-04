@@ -17,6 +17,7 @@ import sys
 from picamera import PiCamera
 
 camera = PiCamera()
+EMULATE_HX711=False
 
 ##### HX711 Setup ##############
 referenceUnit = 88
