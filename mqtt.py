@@ -188,7 +188,7 @@ if __name__ == '__main__':
     if message_count == 0:
         print("Sending messages until program killed")
     else:
-        print("Sending {} message(s)".format(message_count))
+        print("Sending message(s)")
 
     
     # while (publish_count <= message_count) or (message_count == 0):
