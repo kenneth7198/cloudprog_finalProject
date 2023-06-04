@@ -51,6 +51,7 @@ received_all_event = threading.Event()
 MQTT_Topic = "team01/final"
 MQTT_Msg = ""
 publish_count = 1
+weightVal = 0.0
 
 # Callback when connection is accidentally lost.
 def on_connection_interrupted(connection, error, **kwargs):
@@ -155,8 +156,8 @@ if __name__ == '__main__':
 
     ##### Get weight ##################
     try:
-        val = hx.get_weight(5)
-        print(val)
+        weightVal = hx.get_weight(5)
+        print(weightVal)
         hx.power_down()
         hx.power_up()
         time.sleep(0.1)   
@@ -168,14 +169,14 @@ if __name__ == '__main__':
     print("Publishing message to topic")
     message = '{"pi_ip":"192.168.0.80",'\
                 '{"pi_sensors":{' \
-                '"hx711":5.00,' \
+                '"hx711":{hx711},' \
                 '"temperature":25.0,' \
                 '"ultra_sonic":100,' \
                 '"sound_snd":50,' \
                 '"update_time":"2023-06-04 02:09:00",' \
-                '"publish_count":%s'\
+                '"publish_count":{count}'\
                 '}'\
-                '}' (publish_count)
+                '}'.format(hx711=weightVal, publish_count)
                 
     # message_json = json.dumps(message)
     # mqtt_connection.publish(
