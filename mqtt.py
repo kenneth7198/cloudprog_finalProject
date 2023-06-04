@@ -167,18 +167,15 @@ if __name__ == '__main__':
 
     ##### MQTT push message ##################
     print("Publishing message to topic")
-    message = {
-        "pi_sensors":{
-            "hx711":weightVal,
-            "temperature":"25.0",
-            "ultraSonic":100,
-            "soundSND":50,
-            "update_time":"2023-06-04 12:06:00",
-            "publish_counter":publish_count,
-        },
-    
-    }
-             
+    message = '"pi_sensors":{' \
+              '"hx711":{hx711},' \
+              '"temperature":25.0,' \
+              '"ultra_sonic":100,' \
+              '"sound_snd":50,' \
+              '"update_time":"2023-06-04 02:09:00",' \
+              '"publish_count":{count}'\
+              '},'\
+              '}'.format(hx711=weightVal, count=publish_count)
                 
     # message_json = json.dumps(message)
     # mqtt_connection.publish(
@@ -197,7 +194,7 @@ if __name__ == '__main__':
         while (publish_count <= message_count) or (message_count == 0):
             # message = "{} [{}]".format(message_string, publish_count)
             print("Publishing message to topic '{}': {}".format(message_topic, message))
-            message_json = json.dump(message)
+            message_json = json.loads(message)
             mqtt_connection.publish(
                 topic=message_topic,
                 payload=message_json,
