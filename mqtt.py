@@ -88,8 +88,8 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
     # receive data
     take_a_picture(payload)
 
-    if received_count == cmdData.input_count:
-        received_all_event.set()
+    # if received_count == cmdData.input_count:
+    #     received_all_event.set()
 
 def take_a_picture(payload):
     payload = json.loads(payload.decode('utf-8'))
@@ -198,7 +198,7 @@ if __name__ == '__main__':
             #message = '{"hx711":'+str(weightVal)+'}'
             message_string = '{"hx711":'+str(round(abs(weightVal), 2))+'}'
             message = "{} [{}]".format(message_string, publish_count)
-            print(weightVal)
+            #print(weightVal)
             hx.power_down()
             hx.power_up()
             time.sleep(0.1)   
