@@ -13,10 +13,15 @@ import time
 import json
 from utils.command_line_utils import CommandLineUtils
 import time
+import board
+import adafruit_dht
+
 # from picamera import PiCamera
 import RPi.GPIO as GPIO
 GPIO.setwarnings(False)
 from hx711 import HX711
+dhtDevice = adafruit_dht.DHT11(board.D27)
+
 
 # camera = PiCamera()
 # camera.resolution = (1024, 768)
@@ -165,6 +170,26 @@ if __name__ == '__main__':
 
     except(KeyboardInterrupt, SystemExit):
         cleanAndExit()
+
+    ##### Get DHT11 Sensor ############
+    try:
+        # Print the values to the serial port
+        temperature_c = dhtDevice.temperature
+        temperature_f = temperature_c * (9 / 5) + 32
+        humidity = dhtDevice.humidity
+        print(
+            "Temp: {:.1f} C    Humidity: {}% ".format(
+                temperature_c, humidity
+            )
+        )
+
+    except Exception as error:
+        dhtDevice.exit()
+        raise error
+
+    time.sleep(2.0) 
+     
+        
 
     ##### MQTT push message ##################
     print("Publishing message to topic")
