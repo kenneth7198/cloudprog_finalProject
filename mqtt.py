@@ -90,19 +90,19 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
     if payload['pi_camera'] == True:
         take_a_picture()
 
-    # if received_count == cmdData.input_count:
-    #     received_all_event.set()
+    if received_count == cmdData.input_count:
+        received_all_event.set()
 
 def take_a_picture():
     
     try:
             print("take a picture")
             ## pi camera ##
-            camera.start_preview()
-            time.sleep(0.1)
-            camera.capture('/home/pi/picamera.jpg')
-            camera.stop_preview()
-            camera.close()
+            # camera.start_preview()
+            # time.sleep(0.1)
+            # camera.capture('/home/pi/picamera.jpg')
+            # camera.stop_preview()
+            # camera.close()
 
     except:
         print("error")
