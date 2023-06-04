@@ -101,6 +101,7 @@ def take_a_picture(payload):
             time.sleep(0.1)
             camera.capture('/home/pi/picamera.jpg')
             camera.stop_preview()
+            camera.close()
 
     except:
         print("error")
