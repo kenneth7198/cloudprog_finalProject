@@ -235,8 +235,6 @@ if __name__ == '__main__':
     while(weightVal):
         
         ##### Get time.now ###################
-        current_time = datetime.datetime.now()
-        time_stamp = current_time.timestamp()
         date_time = datetime.fromtimestamp(time_stamp)
         str_date_time = date_time.strftime("%Y-%m-%d, %H:%M:%S")
         print("timestamp:", time_stamp)
