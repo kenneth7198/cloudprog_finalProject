@@ -158,10 +158,7 @@ if __name__ == '__main__':
     subscribe_result = subscribe_future.result()
     print("Subscribed with {}".format(str(subscribe_result['qos'])))
 
-    ##### Get time.now ###################
-    current_time = datetime.datetime.now()
-    time_stamp = current_time.timestamp()
-    print("timestamp:", time_stamp)
+    
 
     ##### Get weight ##################
     try:
@@ -236,6 +233,12 @@ if __name__ == '__main__':
     
     # while (publish_count <= message_count) or (message_count == 0):
     while(weightVal):
+        
+        ##### Get time.now ###################
+        current_time = datetime.datetime.now()
+        time_stamp = current_time.timestamp()
+        print("timestamp:", time_stamp)
+
         ##### Get weight ##################
         try:
             weightVal = hx.get_weight(5)
