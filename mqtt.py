@@ -14,11 +14,14 @@ import json
 from utils.command_line_utils import CommandLineUtils
 import time
 import calendar
+import datetime
 import board
 import adafruit_dht
 
 current_GMT = time.gmtime()
-time_stamp = calendar.timegm(current_GMT)
+current_time = datetime.datetime.now()
+time_stamp = current_time.timestamp()
+#time_stamp = calendar.timegm(current_GMT)
 
 from picamera import PiCamera
 import RPi.GPIO as GPIO
@@ -155,6 +158,10 @@ if __name__ == '__main__':
     subscribe_result = subscribe_future.result()
     print("Subscribed with {}".format(str(subscribe_result['qos'])))
 
+    ##### Get time.now ###################
+    current_time = datetime.datetime.now()
+    time_stamp = current_time.timestamp()
+    print("timestamp:", time_stamp)
 
     ##### Get weight ##################
     try:
@@ -185,12 +192,13 @@ if __name__ == '__main__':
     
     ###### take a picture #############
     try:
-        print("...")
+        print("...init camera...")
         ## pi camera ##
         camera.start_preview()
         time.sleep(0.1)
         camera.capture('/home/pi/picamera.jpg')
         camera.stop_preview()
+        #print("...")
         # camera.close()
 
     except:
@@ -248,7 +256,7 @@ if __name__ == '__main__':
             topic=message_topic,
             payload=message_json,
             qos=mqtt.QoS.AT_LEAST_ONCE)
-        time.sleep(1)
+        time.sleep(5)
         publish_count += 1
 
     # Wait for all messages to be received.
