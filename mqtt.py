@@ -237,13 +237,15 @@ if __name__ == '__main__':
         ##### Get time.now ###################
         current_time = datetime.datetime.now()
         time_stamp = current_time.timestamp()
+        formattime = datetime.fromtimestamp(time_stamp)
         print("timestamp:", time_stamp)
+        print("The date and time is:", formattime)
 
         ##### Get weight ##################
         try:
             weightVal = hx.get_weight(5)
             #message = '{"hx711":'+str(weightVal)+'}'
-            message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ str(time_stamp) +'}'
+            message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ str(time_stamp) +', "formattime:"'+ str(formattime) +'}'
             message = "{}".format(message_string)
             #print(weightVal)
             hx.power_down()
