@@ -14,7 +14,6 @@ import json
 from utils.command_line_utils import CommandLineUtils
 import time
 import calendar
-import datetime
 from datetime import datetime  
 import board
 import adafruit_dht
@@ -238,15 +237,16 @@ if __name__ == '__main__':
         ##### Get time.now ###################
         current_time = datetime.datetime.now()
         time_stamp = current_time.timestamp()
-        formattime = datetime.fromtimestamp(time_stamp)
+        date_time = datetime.fromtimestamp(time_stamp)
+        str_date_time = date_time.strftime("%Y-%m-%d, %H:%M:%S")
         print("timestamp:", time_stamp)
-        print("The date and time is:", formattime)
+        print("The date and time is:", str_date_time)
 
         ##### Get weight ##################
         try:
             weightVal = hx.get_weight(5)
             #message = '{"hx711":'+str(weightVal)+'}'
-            message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ str(time_stamp) +', "formattime:"'+ str(formattime) +'}'
+            message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ str(time_stamp) +', "formattime:"'+ str(str_date_time) +'}'
             message = "{}".format(message_string)
             #print(weightVal)
             hx.power_down()
