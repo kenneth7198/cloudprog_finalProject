@@ -19,8 +19,7 @@ import board
 import adafruit_dht
 
 current_GMT = time.gmtime()
-current_time = datetime.now()
-time_stamp = current_time.timestamp()
+
 #time_stamp = calendar.timegm(current_GMT)
 
 from picamera import PiCamera
@@ -202,7 +201,7 @@ if __name__ == '__main__':
         print("error")
 
 
-    time.sleep(5.0) 
+    time.sleep(1.0) 
      
         
 
@@ -235,6 +234,8 @@ if __name__ == '__main__':
     while(weightVal):
         
         ##### Get time.now ###################
+        current_time = datetime.now()
+        time_stamp = current_time.timestamp()
         date_time = datetime.fromtimestamp(time_stamp)
         str_date_time = date_time.strftime("%Y-%m-%d, %H:%M:%S")
         print("timestamp:", time_stamp)
@@ -244,7 +245,7 @@ if __name__ == '__main__':
         try:
             weightVal = hx.get_weight(5)
             #message = '{"hx711":'+str(weightVal)+'}'
-            message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ str(time_stamp) +', "formattime:"'+ str(str_date_time) +'}'
+            message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ str(round(time_stamp)) +', "formattime:"'+ str(str_date_time) +'}'
             message = "{}".format(message_string)
             #print(weightVal)
             hx.power_down()
