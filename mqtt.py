@@ -19,7 +19,7 @@ import board
 import adafruit_dht
 
 current_GMT = time.gmtime()
-current_time = datetime.datetime.now()
+current_time = datetime.now()
 time_stamp = current_time.timestamp()
 #time_stamp = calendar.timegm(current_GMT)
 
