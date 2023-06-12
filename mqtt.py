@@ -20,15 +20,15 @@ import adafruit_dht
 current_GMT = time.gmtime()
 time_stamp = calendar.timegm(current_GMT)
 
-# from picamera import PiCamera
+from picamera import PiCamera
 import RPi.GPIO as GPIO
 GPIO.setwarnings(False)
 from hx711 import HX711
 dhtDevice = adafruit_dht.DHT11(board.D27)
 
 
-# camera = PiCamera()
-# camera.resolution = (1024, 768)
+camera = PiCamera()
+camera.resolution = (1024, 768)
 
 
 ##### HX711 Setup ##############
@@ -105,17 +105,7 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
 
 def take_a_picture(payload):
     #if payload['pi_camera'] == True:   
-    try:
-        print("...")
-        ## pi camera ##
-        # camera.start_preview()
-        # time.sleep(0.1)
-        # camera.capture('/home/pi/picamera.jpg')
-        # camera.stop_preview()
-        # camera.close()
-
-    except:
-        print("error")
+   
     return            
 
 
@@ -192,8 +182,22 @@ if __name__ == '__main__':
     except Exception as error:
         dhtDevice.exit()
         raise error
+    
+    ###### take a picture #############
+    try:
+        print("...")
+        ## pi camera ##
+        camera.start_preview()
+        time.sleep(0.1)
+        camera.capture('/home/pi/picamera.jpg')
+        camera.stop_preview()
+        # camera.close()
 
-    time.sleep(2.0) 
+    except:
+        print("error")
+
+
+    time.sleep(5.0) 
      
         
 
