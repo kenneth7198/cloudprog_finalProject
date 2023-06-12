@@ -228,7 +228,7 @@ if __name__ == '__main__':
         try:
             weightVal = hx.get_weight(5)
             #message = '{"hx711":'+str(weightVal)+'}'
-            message_string = '{"weight":'+str(abs(weightVal))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ str(time_stamp) +'}'
+            message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ str(time_stamp) +'}'
             message = "{}".format(message_string)
             #print(weightVal)
             hx.power_down()
