@@ -241,6 +241,21 @@ if __name__ == '__main__':
         print("timestamp:", time_stamp)
         print("The date and time is:", str_date_time)
 
+
+        ###### take a picture #############
+        try:
+            print("...init camera...")
+            ## pi camera ##
+            camera.start_preview()
+            time.sleep(0.1)
+            camera.capture('/home/pi/picamera.jpg')
+            camera.stop_preview()
+            #print("...")
+            # camera.close()
+
+        except:
+            print("error")
+
         ##### Get weight ##################
         try:
             weightVal = hx.get_weight(5)
