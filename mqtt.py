@@ -13,8 +13,12 @@ import time
 import json
 from utils.command_line_utils import CommandLineUtils
 import time
+import calendar
 import board
 import adafruit_dht
+
+current_GMT = time.gmtime()
+time_stamp = calendar.timegm(current_GMT)
 
 # from picamera import PiCamera
 import RPi.GPIO as GPIO
@@ -224,7 +228,7 @@ if __name__ == '__main__':
         try:
             weightVal = hx.get_weight(5)
             #message = '{"hx711":'+str(weightVal)+'}'
-            message_string = '{"hx711":'+str(round(abs(weightVal), 2))+', "Temperature":'+ str(temperature_c) +', "Humidity:"' + str(humidity)+', "Counter:"' + str(publish_count) +'}'
+            message_string = '{"weight":'+str(round(abs(weightVal), 0))+', "temperature":'+ str(temperature_c) +', "humidity:"' + str(humidity)+', "counter:"' + str(publish_count) +', "timestamp:"'+ time_stamp +'}'
             message = "{}".format(message_string)
             #print(weightVal)
             hx.power_down()
