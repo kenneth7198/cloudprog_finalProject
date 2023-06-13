@@ -241,8 +241,8 @@ if __name__ == '__main__':
         current_time = datetime.now()
         time_stamp = current_time.timestamp()
         date_time = datetime.fromtimestamp(time_stamp)
-        str_time = date_time.strftime("%Y-%m-%d")
-        str_date = date_time.strftime("%H:%M")
+        str_date = date_time.strftime("%Y-%m-%d")
+        str_time = date_time.strftime("%H:%M")
         print("timestamp:", time_stamp)
         print("The date and time is:", str_time)
 
