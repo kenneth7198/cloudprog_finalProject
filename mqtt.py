@@ -252,13 +252,15 @@ if __name__ == '__main__':
             ## pi camera ##
             camera.start_preview()
             time.sleep(0.1)
-            camera.capture('/home/pi/picamera.jpg')
-            IMG_NAME = '/home/pi/picamera.jpg'
-            data = open(IMG_NAME, 'rb')
-            s3.Bucket(BUCKET_NAME).put_object(Key=IMG_NAME, Body=data)
+            camera.capture('/home/pi/cloudprog_finalProject/picamera.jpg')
             camera.stop_preview()
             #print("...")
             # camera.close()
+
+            IMG_NAME = 'picamera.jpg'
+            data = open(IMG_NAME, 'rb')
+            s3.Bucket(BUCKET_NAME).put_object(Key=IMG_NAME, Body=data)
+            print("take a picture...")
 
         except:
             print("error")
