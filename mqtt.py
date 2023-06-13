@@ -17,6 +17,7 @@ import calendar
 from datetime import datetime  
 import board
 import adafruit_dht
+import boto3
 
 current_GMT = time.gmtime()
 
@@ -31,7 +32,10 @@ dhtDevice = adafruit_dht.DHT11(board.D27)
 
 camera = PiCamera()
 camera.resolution = (1024, 768)
-
+IMG_NAME = ""
+s3 = boto3.resource('s3')
+BUCKET_NAME = 'team01-image'
+BUCKET_REGION = 'us-east-1'
 
 ##### HX711 Setup ##############
 referenceUnit = 465
@@ -249,6 +253,9 @@ if __name__ == '__main__':
             camera.start_preview()
             time.sleep(0.1)
             camera.capture('/home/pi/picamera.jpg')
+            IMG_NAME = '/home/pi/picamera.jpg'
+            data = open(IMG_NAME, 'rb')
+            s3.Bucket(BUCKET_NAME).put_object(Key=IMG_NAME, Body=data)
             camera.stop_preview()
             #print("...")
             # camera.close()
