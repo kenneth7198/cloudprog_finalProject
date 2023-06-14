@@ -20,6 +20,7 @@ import neopixel
 import adafruit_dht
 import boto3
 pixel_pin = board.D18
+num_pixels = 5
 ORDER = neopixel.GRB
 
 pixels = neopixel.NeoPixel(
