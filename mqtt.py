@@ -287,7 +287,7 @@ if __name__ == '__main__':
                 data = data_raw.decode()
                 # print('raw_data:', data_raw)
                 
-                if data == 'A':
+                if data == "A":
                     print('send data')
                     UltraSonic = True
                 
