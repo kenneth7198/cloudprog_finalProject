@@ -7,6 +7,7 @@
 
 from awscrt import mqtt, http
 from awsiot import mqtt_connection_builder
+import serial
 import sys
 import threading
 import time
@@ -20,6 +21,10 @@ import neopixel
 import adafruit_dht
 import boto3
 pixel_pin = board.D18
+com_port = '/devtty/USB1'
+baud_rates = 9600
+ser = serial.Serial(com_port, baud_rates)
+
 num_pixels = 5
 ORDER = neopixel.GRB
 
@@ -273,6 +278,18 @@ if __name__ == '__main__':
     else:
         print("Sending message(s)")
 
+
+    try:
+        while True:
+            while ser.in_waiting:
+                data_raw = ser.readline()
+                data = data_raw.decode()
+                print('raw_data:', data_raw)
+                print('data', data)
+
+    except KeyboardInterrupt:
+        ser.close()
+        print('bye serial')
     
     # while (publish_count <= message_count) or (message_count == 0):
     while(weightVal):
