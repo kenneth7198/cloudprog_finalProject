@@ -24,6 +24,7 @@ pixel_pin = board.D18
 com_port = '/dev/ttyUSB1'
 baud_rates = 9600
 ser = serial.Serial(com_port, baud_rates)
+UltraSonic = False
 
 num_pixels = 5
 ORDER = neopixel.GRB
@@ -284,15 +285,24 @@ if __name__ == '__main__':
             while ser.in_waiting:
                 data_raw = ser.readline()
                 data = data_raw.decode()
-                print('raw_data:', data_raw)
-                print('data', data)
+                # print('raw_data:', data_raw)
+                
+                if data == 'A':
+                    print('send data')
+                    UltraSonic = True
+                else: 
+                    print('data', data)
+                    UltraSonic = False                
+
+                   
 
     except KeyboardInterrupt:
         ser.close()
         print('bye serial')
     
     # while (publish_count <= message_count) or (message_count == 0):
-    while(weightVal):
+    while(UltraSonic):
+    # while(weightVal):
         
         ##### Get time.now ###################
         current_time = datetime.now()
