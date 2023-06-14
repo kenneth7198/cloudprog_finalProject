@@ -155,7 +155,7 @@ def take_a_picture(payload):
 
 
 if __name__ == '__main__':
-    rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
+    #rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
     # Create the proxy options if the data is present in cmdData
     proxy_options = None
     if cmdData.input_proxy_host is not None and cmdData.input_proxy_port != 0:
