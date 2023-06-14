@@ -21,7 +21,7 @@ import neopixel
 import adafruit_dht
 import boto3
 pixel_pin = board.D18
-com_port = '/dev/tty/USB1'
+com_port = '/dev/ttyUSB1'
 baud_rates = 9600
 ser = serial.Serial(com_port, baud_rates)
 
