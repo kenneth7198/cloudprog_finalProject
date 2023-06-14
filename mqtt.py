@@ -285,64 +285,66 @@ if __name__ == '__main__':
             while ser.in_waiting:
                 data_raw = ser.readline()
                 data = data_raw.decode()
+
+
+                ##### Get time.now ###################
+                current_time = datetime.now()
+                time_stamp = current_time.timestamp()
+                date_time = datetime.fromtimestamp(time_stamp)
+                str_date = date_time.strftime("%Y-%m-%d")
+                str_time = date_time.strftime("%H:%M")
+                print("timestamp:", time_stamp)
+                print("The date and time is:", str_time)
+
+
+                ###### take a picture #############
+                try:
+                    print("...init camera...")
+                    ## pi camera ##
+                    camera.start_preview()
+                    time.sleep(0.1)
+                    camera.capture('/home/pi/cloudprog_finalProject/picamera.jpg')
+                    camera.stop_preview()
+                    #print("...")
+                    # camera.close()
+
+                    IMG_NAME = 'picamera.jpg'
+                    data = open(IMG_NAME, 'rb')
+                    s3.Bucket(BUCKET_NAME).put_object(Key=IMG_NAME, Body=data)
+                    print("take a picture...")
+
+                except:
+                    print("error")
+
+                ##### Get weight ##################
+                try:
+                    weightVal = hx.get_weight(5)
+                    #message = '{"hx711":'+str(weightVal)+'}'
+                    message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity":' + str(humidity)+', "counter":' + str(publish_count) +', "timestamp":'+ str(round(time_stamp)) +', "formatdate":"'+ str(str_date) +'", "formattime":"'+ str(str_time)+'"}'
+                    message = "{}".format(message_string)
+                    #print(weightVal)
+                    hx.power_down()
+                    hx.power_up()
+                    time.sleep(0.1)   
+
+                except(KeyboardInterrupt, SystemExit):
+                    cleanAndExit()
+
+                print("Publishing message to topic '{}': {}".format(message_topic, message))
+                message_json = json.dumps(message)
+                mqtt_connection.publish(
+                    topic=message_topic,
+                    payload=message_json,
+                    qos=mqtt.QoS.AT_LEAST_ONCE)
+                #time.sleep(5)
+                publish_count += 1     
+                
                 # print('raw_data:', data_raw)
                 
                 if data == "A":
                     print('send data')
                     UltraSonic = True
-                
-                    ##### Get time.now ###################
-                    current_time = datetime.now()
-                    time_stamp = current_time.timestamp()
-                    date_time = datetime.fromtimestamp(time_stamp)
-                    str_date = date_time.strftime("%Y-%m-%d")
-                    str_time = date_time.strftime("%H:%M")
-                    print("timestamp:", time_stamp)
-                    print("The date and time is:", str_time)
-
-
-                    ###### take a picture #############
-                    try:
-                        print("...init camera...")
-                        ## pi camera ##
-                        camera.start_preview()
-                        time.sleep(0.1)
-                        camera.capture('/home/pi/cloudprog_finalProject/picamera.jpg')
-                        camera.stop_preview()
-                        #print("...")
-                        # camera.close()
-
-                        IMG_NAME = 'picamera.jpg'
-                        data = open(IMG_NAME, 'rb')
-                        s3.Bucket(BUCKET_NAME).put_object(Key=IMG_NAME, Body=data)
-                        print("take a picture...")
-
-                    except:
-                        print("error")
-
-                    ##### Get weight ##################
-                    try:
-                        weightVal = hx.get_weight(5)
-                        #message = '{"hx711":'+str(weightVal)+'}'
-                        message_string = '{"weight":'+str(abs(round(weightVal)))+', "temperature":'+ str(temperature_c) +', "humidity":' + str(humidity)+', "counter":' + str(publish_count) +', "timestamp":'+ str(round(time_stamp)) +', "formatdate":"'+ str(str_date) +'", "formattime":"'+ str(str_time)+'"}'
-                        message = "{}".format(message_string)
-                        #print(weightVal)
-                        hx.power_down()
-                        hx.power_up()
-                        time.sleep(0.1)   
-
-                    except(KeyboardInterrupt, SystemExit):
-                        cleanAndExit()
-
-                    print("Publishing message to topic '{}': {}".format(message_topic, message))
-                    message_json = json.dumps(message)
-                    mqtt_connection.publish(
-                        topic=message_topic,
-                        payload=message_json,
-                        qos=mqtt.QoS.AT_LEAST_ONCE)
-                    #time.sleep(5)
-                    publish_count += 1               
-
+        
                 else: 
                     print('data', data)
                     UltraSonic = False         
